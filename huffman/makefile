@@ -1,13 +1,16 @@
-CC=gcc
-CCFLAGS= -fpic -Wall -Wextra -Wall
-LDFLAGS= -shared
-SOURCES=$(wildcard *.c)
-OBJECTS=$(SOURCES:.c=.o)
-TARGET=huffman.so
+CC = gcc
+CCFLAGS = -fpic -Wall -Wextra -Wall
+LDFLAGS = -shared
+SOURCES = $(wildcard *.c)
+OBJECTS = $(SOURCES:.c=.o)
 
-all: $(TARGET)
+DEST = ./../bin
+TARGET_LIB= $(DEST)/libhuffman.so
 
-$(TARGET): $(OBJECTS)
+all: $(TARGET_LIB)
+
+$(TARGET_LIB): $(OBJECTS)
+	mkdir -p $(DEST)
 	$(CC) -o $@ $^ $(LDFLAGS) 
 
 %.o: %.c %.h
@@ -17,4 +20,4 @@ $(TARGET): $(OBJECTS)
 	$(CC) $(CCFLAGS) -c $<
 
 clean:
-	rm -f *.o $(TARGET)
+	rm -f *.o $(TARGET_LIB)
