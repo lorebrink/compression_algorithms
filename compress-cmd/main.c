@@ -9,7 +9,7 @@
 
 int main()
 {
-  CompressFile("test.txt");
+  CompressFile();
 
   return 0;
 }

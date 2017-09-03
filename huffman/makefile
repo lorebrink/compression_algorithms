@@ -1,23 +1,42 @@
+TOP = .
+
+# Compiler
 CC = gcc
+
+# Compiler flags
 CCFLAGS = -fpic -Wall -Wextra -Wall
+
+# Linker flags
 LDFLAGS = -shared
+
+# Files
 SOURCES = $(wildcard *.c)
 OBJECTS = $(SOURCES:.c=.o)
 
-DEST = ./../bin
-TARGET_LIB= $(DEST)/libhuffman.so
+# Directories
+TARGET_DIR = $(TOP)/bin
+OBJ_DIR = $(TOP)/bin/obj
 
-all: $(TARGET_LIB)
+# Target
+TARGET_LIB = $(TARGET_DIR)/libhuffman.so
 
-$(TARGET_LIB): $(OBJECTS)
-	mkdir -p $(DEST)
-	$(CC) -o $@ $^ $(LDFLAGS) 
+# Full library path
+LIB_PATH = ${CURDIR}/bin
 
-%.o: %.c %.h
-	$(CC) $(CCFLAGS) -c $<
+all: MAKE_DIRS $(TARGET_LIB)
 
-%.o: %.c
-	$(CC) $(CCFLAGS) -c $<
+$(TARGET_LIB): $(OBJ_DIR)/$(OBJECTS)
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+$(OBJ_DIR)/%.o: %.c %.h
+	$(CC) $(CCFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/%.o: %.c
+	$(CC) $(CCFLAGS) -c $< -o $@
+
+MAKE_DIRS :
+		mkdir -p $(TARGET_DIR)
+		mkdir -p $(OBJ_DIR)
 
 clean:
-	rm -f *.o $(TARGET_LIB)
+	rm -rf $(TARGET_DIR)

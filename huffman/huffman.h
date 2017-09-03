@@ -12,6 +12,8 @@
 
 typedef unsigned char byte;
 
-extern const char* CompressFile(const char* file_path);
+extern void Test(void);
+
+extern void CompressFile(void);
 
 #endif /* HUFFMAN_H_ */

@@ -78,9 +78,7 @@ const Node* ConstructTree(const Node* node_arr)
   return node_arr;
 }
 
-
-
-const char* Compress_file(const char* file_path)
+void CompressFile(void)
 {
   //const Node* node_arr = GetCharFrequencies(file_path);
 
@@ -92,7 +90,9 @@ const char* Compress_file(const char* file_path)
 
   // Compress file with codes
 
-  return file_path;
+  printf("CompressFile!\n");
+
+  // return file_path;
 }
 
 

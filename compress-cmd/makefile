@@ -1,27 +1,41 @@
+TOP = .
+
 # Compiler
 CC=gcc
 
-# Flags
-CCFLAGS = -Wall -Wextra -Wall -I./../huffman
-LDFLAGS = -L/home/lukas/projects/compression_algorithms/bin -l huffman
+# Compiler flags
+CCFLAGS = -I./../huffman -Wall -Wextra -Wall
 
-SOURCES=$(wildcard *.c)
-OBJECTS=$(SOURCES:.c=.o)
+# Linker flags
+LDFLAGS = -L./../huffman/bin -lhuffman
 
-DEST = ./../bin
-TARGET=$(DEST)/compress-cmd
+# Files
+SOURCES = $(wildcard *.c)
+OBJECTS = $(SOURCES:.c=.o)
+
+# Directories
+TARGET_DIR = $(TOP)/bin
+OBJ_DIR = $(TOP)/bin/obj
+
+# Target executable
+TARGET= $(TARGET_DIR)/compress-cmd
 
 all: $(TARGET)
 
-$(TARGET): $(OBJECTS)
-	mkdir -p $(DEST)
+# Linking stage
+$(TARGET): $(OBJ_DIR)/$(OBJECTS)
+	mkdir -p $(TARGET_DIR)
 	$(CC) -o $@ $^ $(LDFLAGS) 
 
-%.o: %.c %.h
-	$(CC) $(CCFLAGS) -c $<
+# Compile stage
+$(OBJ_DIR)/%.o: %.c %.h
+	mkdir -p $(OBJ_DIR)
+	$(CC) $(CCFLAGS) -c $< -o $@
 
-%.o: %.c
-	$(CC) $(CCFLAGS) -c $<
+# Compile stage
+$(OBJ_DIR)/%.o: %.c
+	mkdir -p $(OBJ_DIR)
+	$(CC) $(CCFLAGS) -c $< -o $@
 
 clean:
-	rm -f *.o $(TARGET)
+	rm -rf $(TARGET_DIR)
