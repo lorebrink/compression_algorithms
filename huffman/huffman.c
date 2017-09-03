@@ -73,12 +73,10 @@ const Node* ConstructTree(const Node* node_arr)
 
   // Get the two lowest byte frequencies and make an internal node.
 
-
-
   return node_arr;
 }
 
-void CompressFile(void)
+const char* CompressFile(const char* file_path)
 {
   //const Node* node_arr = GetCharFrequencies(file_path);
 
@@ -90,9 +88,9 @@ void CompressFile(void)
 
   // Compress file with codes
 
-  printf("CompressFile!\n");
+  printf("CompressFile: %s\n", file_path);
 
-  // return file_path;
+  return file_path;
 }
 
 

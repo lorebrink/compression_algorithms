@@ -1,7 +1,7 @@
 TOP = .
 
 # Compiler
-CC=gcc
+CC = gcc
 
 # Compiler flags
 CCFLAGS = -I./../huffman -Wall -Wextra -Wall
@@ -18,7 +18,7 @@ TARGET_DIR = $(TOP)/bin
 OBJ_DIR = $(TOP)/bin/obj
 
 # Target executable
-TARGET= $(TARGET_DIR)/compress-cmd
+TARGET = $(TARGET_DIR)/compress-cmd
 
 all: $(TARGET)
 
