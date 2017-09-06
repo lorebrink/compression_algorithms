@@ -10,7 +10,7 @@ CCFLAGS = -I./../huffman -Wall -Wextra -Wall
 LDFLAGS = -L./../huffman/bin -lhuffman
 
 # Files
-SOURCES = $(wildcard *.cpp)
+SOURCES = $(wildcard *.cc)
 OBJECTS = $(SOURCES:.cpp=.o)
 
 # Directories
@@ -28,12 +28,12 @@ $(TARGET): $(OBJ_DIR)/$(OBJECTS)
 	$(CC) -o $@ $^ $(LDFLAGS) 
 
 # Compile stage
-$(OBJ_DIR)/%.o: %.cpp %.h
+$(OBJ_DIR)/%.o: %.cc %.h
 	mkdir -p $(OBJ_DIR)
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 # Compile stage
-$(OBJ_DIR)/%.o: %.cpp
+$(OBJ_DIR)/%.o: %.cc
 	mkdir -p $(OBJ_DIR)
 	$(CC) $(CCFLAGS) -c $< -o $@
 

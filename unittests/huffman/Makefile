@@ -17,27 +17,34 @@
 # Points to the root of Google Test, relative to where this file is.
 # Remember to tweak this if you move this file, or if you want to use
 # a copy of Google Test at a different location.
-GTEST_DIR = ../../googletest
+GTEST_DIR = ../../3pp/googletest-1.8.0/googletest
 
 # Points to the root of Google Mock, relative to where this file is.
 # Remember to tweak this if you move this file.
-GMOCK_DIR = ..
+GMOCK_DIR = ../../3pp/googletest-1.8.0/googlemock
 
 # Where to find user code.
-USER_DIR = ../test
+USER_DIR = .
+
+# Target dirs for binaries and object files.
+TARGET_DIR = bin
+OBJ_DIR = bin/obj
 
 # Flags passed to the preprocessor.
 # Set Google Test and Google Mock's header directories as system
 # directories, such that the compiler doesn't generate warnings in
 # these headers.
-CPPFLAGS += -isystem $(GTEST_DIR)/include -isystem $(GMOCK_DIR)/include
+CPPFLAGS += -isystem $(GTEST_DIR)/include -isystem $(GMOCK_DIR)/include -I../../huffman
 
 # Flags passed to the C++ compiler.
 CXXFLAGS += -g -Wall -Wextra -pthread
 
+# Linker flags
+LDFLAGS = -L./../../huffman/bin -lhuffman  -lpthread
+
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = gmock_test
+TESTS = $(TARGET_DIR)/huffman_test
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -53,10 +60,14 @@ GMOCK_HEADERS = $(GMOCK_DIR)/include/gmock/*.h \
 
 # House-keeping build targets.
 
-all : $(TESTS)
+all : MAKE_DIRS $(TESTS)
+
+MAKE_DIRS:
+	mkdir -p $(TARGET_DIR)
+	mkdir -p $(OBJ_DIR)
 
 clean :
-	rm -f $(TESTS) gmock.a gmock_main.a *.o
+	rm -rf bin
 
 # Builds gmock.a and gmock_main.a.  These libraries contain both
 # Google Mock and Google Test.  A test should link with either gmock.a
@@ -74,28 +85,28 @@ GMOCK_SRCS_ = $(GMOCK_DIR)/src/*.cc $(GMOCK_HEADERS)
 # conservative and not optimized.  This is fine as Google Mock and
 # Google Test compile fast and for ordinary users their source rarely
 # changes.
-gtest-all.o : $(GTEST_SRCS_)
+$(OBJ_DIR)/gtest-all.o : $(GTEST_SRCS_)
 	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) -I$(GMOCK_DIR) $(CXXFLAGS) \
-            -c $(GTEST_DIR)/src/gtest-all.cc
+            -c $(GTEST_DIR)/src/gtest-all.cc -o $@
 
-gmock-all.o : $(GMOCK_SRCS_)
+$(OBJ_DIR)/gmock-all.o : $(GMOCK_SRCS_)
 	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) -I$(GMOCK_DIR) $(CXXFLAGS) \
-            -c $(GMOCK_DIR)/src/gmock-all.cc
+            -c $(GMOCK_DIR)/src/gmock-all.cc -o $@
 
-gmock_main.o : $(GMOCK_SRCS_)
+$(OBJ_DIR)/gmock_main.o : $(GMOCK_SRCS_)
 	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) -I$(GMOCK_DIR) $(CXXFLAGS) \
-            -c $(GMOCK_DIR)/src/gmock_main.cc
+            -c $(GMOCK_DIR)/src/gmock_main.cc -o $@
 
-gmock.a : gmock-all.o gtest-all.o
-	$(AR) $(ARFLAGS) $@ $^
+$(TARGET_DIR)/gmock.a : $(OBJ_DIR)/gmock-all.o $(OBJ_DIR)/gtest-all.o
+	$(AR) $(ARFLAGS) $@ $^ -o $@
 
-gmock_main.a : gmock-all.o gtest-all.o gmock_main.o
-	$(AR) $(ARFLAGS) $@ $^
+$(TARGET_DIR)/gmock_main.a : $(OBJ_DIR)/gmock-all.o $(OBJ_DIR)/gtest-all.o $(OBJ_DIR)/gmock_main.o
+	$(AR) $(ARFLAGS) $@ $^ -o $@
 
 # Builds a sample test.
 
-gmock_test.o : $(USER_DIR)/gmock_test.cc $(GMOCK_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/gmock_test.cc
+$(OBJ_DIR)/huffman_test.o : $(USER_DIR)/huffman_test.cc $(GMOCK_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/huffman_test.cc -o $@
 
-gmock_test : gmock_test.o gmock_main.a
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
+$(TARGET_DIR)/huffman_test : $(OBJ_DIR)/huffman_test.o $(TARGET_DIR)/gmock_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
