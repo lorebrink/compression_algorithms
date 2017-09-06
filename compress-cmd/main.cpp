@@ -5,7 +5,11 @@
  *      Author: lukas
  */
 
-#include "huffman.h"
+extern "C"
+{
+  #include "huffman.h"
+}
+
 #include <stdio.h>
 
 int main()

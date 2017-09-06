@@ -1,7 +1,7 @@
 TOP = .
 
 # Compiler
-CC = gcc
+CC = g++
 
 # Compiler flags
 CCFLAGS = -I./../huffman -Wall -Wextra -Wall
@@ -10,8 +10,8 @@ CCFLAGS = -I./../huffman -Wall -Wextra -Wall
 LDFLAGS = -L./../huffman/bin -lhuffman
 
 # Files
-SOURCES = $(wildcard *.c)
-OBJECTS = $(SOURCES:.c=.o)
+SOURCES = $(wildcard *.cpp)
+OBJECTS = $(SOURCES:.cpp=.o)
 
 # Directories
 TARGET_DIR = $(TOP)/bin
@@ -28,12 +28,12 @@ $(TARGET): $(OBJ_DIR)/$(OBJECTS)
 	$(CC) -o $@ $^ $(LDFLAGS) 
 
 # Compile stage
-$(OBJ_DIR)/%.o: %.c %.h
+$(OBJ_DIR)/%.o: %.cpp %.h
 	mkdir -p $(OBJ_DIR)
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 # Compile stage
-$(OBJ_DIR)/%.o: %.c
+$(OBJ_DIR)/%.o: %.cpp
 	mkdir -p $(OBJ_DIR)
 	$(CC) $(CCFLAGS) -c $< -o $@
 
