@@ -2,14 +2,10 @@ MAIN_PROGRAM = compress-cmd
 LIB_DIRS = huffman
 TESTS = unittests
 
-.PHONY: main_program $(MAIN_PROGRAM)
-main_program : $(MAIN_PROGRAM)
-
-.PHONY: lib_dirs $(LIB_DIRS)
-lib_dirs: $(LIB_DIRS)
-
-.PHONY: tests $(TESTS)
-tests: $(TESTS)
+# Declare as phony targers since dirs always exist
+.PHONY: $(MAIN_PROGRAM)
+.PHONY: $(LIB_DIRS)
+.PHONY: $(TESTS)
 
 $(MAIN_PROGRAM): $(LIB_DIRS)
 	$(MAKE) $(MFLAGS) -C $@
