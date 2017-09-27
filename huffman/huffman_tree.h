@@ -21,6 +21,6 @@ typedef struct Node
   struct Node* right;
 } *NodePtr;
 
-const NodePtr CreateTree(const unsigned long* freq_arr, int size);
+NodePtr CreateTree(const unsigned long* freq_arr, int size);
 
 #endif /* HUFFMAN_HUFFMAN_TREE_H_ */

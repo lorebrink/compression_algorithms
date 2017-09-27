@@ -10,11 +10,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-const unsigned int* GetCharFrequencies(const char* file_path)
+const unsigned long* GetCharFrequencies(const char* file_path)
 {
   FILE* file;
   unsigned long* freq_arr;
-  unsigned char character;
+  int character;
 
   // Open file.
   file = fopen(file_path, "r");
@@ -39,9 +39,9 @@ const unsigned int* GetCharFrequencies(const char* file_path)
 
 const char* CompressFile(const char* file_path)
 {
-  const unsigned long int* freq_arr = GetCharFrequencies(file_path);
+  // const unsigned long int* freq_arr = GetCharFrequencies(file_path);
 
-  const NodePtr tree = CreateTree(freq_arr, NUM_CHARS);
+  // const NodePtr tree = CreateTree(freq_arr, NUM_CHARS);
 
   // CreateCodeWords(Node*);
 
@@ -54,6 +54,11 @@ const char* CompressFile(const char* file_path)
   printf("CompressFile: %s\n", file_path);
 
   return file_path;
+}
+
+int main()
+{
+  return 0;
 }
 
 

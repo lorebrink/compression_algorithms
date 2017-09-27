@@ -11,6 +11,8 @@
 // 2^k - 1, where k is level of the tree
 #define MAX_NUM_NODES 511
 
+int num_nodes = 0;
+
 // ****** PRIORITY QUEUE GLOBALS ******
 typedef struct
 {
@@ -45,7 +47,7 @@ void SwapNodes(Heap* heap, int index_1, int index_2)
 {
   NodePtr node_tmp;
   node_tmp = heap->tree[index_1];
-  SetNode(heap, heap->tree[index_2], index_1);
+  heap->tree[index_1] = heap->tree[index_2];
   heap->tree[index_2] = node_tmp;
 }
 
@@ -116,15 +118,15 @@ NodePtr QueuePop(Heap* heap)
 // Huffman tree
 // ************************************
 
-NodePtr InitNodes()
+NodePtr* InitNodes()
 {
-  return (Heap*)calloc(MAX_NUM_NODES , sizeof(struct Node));
+  return (NodePtr*)calloc(MAX_NUM_NODES , sizeof(struct Node));
 }
 
 NodePtr CreateNode(NodePtr node_arr, unsigned long int freq, char character, NodePtr left, NodePtr right)
 {
   int index;
-  static int num_nodes = 0;
+  int num_nodes = 0;
   
   index = num_nodes++;
   NodePtr node = &node_arr[index];
@@ -137,7 +139,7 @@ NodePtr CreateNode(NodePtr node_arr, unsigned long int freq, char character, Nod
   return node;
 }
 
-const NodePtr CreateTree(const unsigned long* freq_arr, int size)
+NodePtr CreateTree(const unsigned long* freq_arr, int size)
 {
   int i;
   NodePtr min_1, min_2, node_arr;
