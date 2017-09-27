@@ -6,23 +6,15 @@
  */
 
 #include "huffman.h"
+#include "huffman_tree.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct TreeNode
-{
-  byte character;
-  unsigned long frequency;
-
-  struct TreeNode* left;
-  struct TreeNode* right;
-} Node;
-
-const Node* GetCharFrequencies(const char* file_path)
+const unsigned int* GetCharFrequencies(const char* file_path)
 {
   FILE* file;
-  Node* node_arr;
-  int character;
+  unsigned long* freq_arr;
+  unsigned char character;
 
   // Open file.
   file = fopen(file_path, "r");
@@ -34,53 +26,24 @@ const Node* GetCharFrequencies(const char* file_path)
   }
 
   // Create array for all possible characters.
-  node_arr = (Node*)calloc(NUM_CHARS,sizeof(Node));
+  freq_arr = (unsigned long int*)calloc(NUM_CHARS, sizeof(unsigned long int));
 
   // Count the characters.
   while((character = fgetc(file)) != EOF)
   {
-      node_arr[character].frequency++;
+      ++freq_arr[character];
   }
 
-  return node_arr;
-}
-
-int CompareNodes(const void* elem_1, const void* elem_2)
-{
-  // Node have equal frequencies.
-  int comp = 0;
-  const Node* node_1 = (const Node*)elem_1;
-  const Node* node_2 = (const Node*)elem_2;
-
-  if(node_1->frequency < node_2->frequency)
-  {
-      // Means that node_1 goes before node_2.
-      comp = -1;
-  }
-  else if(node_1->frequency > node_2->frequency)
-  {
-      // Means that node_1 goes after node_2.
-      comp = 1;
-  }
-
-  return comp;
-}
-
-const Node* ConstructTree(const Node* node_arr)
-{
-  // Sort in ascending order.
-  qsort((void*)node_arr, NUM_CHARS, sizeof(Node), CompareNodes);
-
-  // Get the two lowest byte frequencies and make an internal node.
-
-  return node_arr;
+  return freq_arr;
 }
 
 const char* CompressFile(const char* file_path)
 {
-  //const Node* node_arr = GetCharFrequencies(file_path);
+  const unsigned long int* freq_arr = GetCharFrequencies(file_path);
 
-  //const Node* tree = ConstructTree(node_arr);
+  const NodePtr tree = CreateTree(freq_arr, NUM_CHARS);
+
+  // CreateCodeWords(Node*);
 
   // Construct codes
 

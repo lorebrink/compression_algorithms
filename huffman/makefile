@@ -4,7 +4,7 @@ TOP = .
 CC = gcc
 
 # Compiler flags
-CCFLAGS = -fpic -Wall -Wextra -Wall
+CCFLAGS = -fpic -Wall -Wextra -Wall -std=c99
 
 # Linker flags
 LDFLAGS = -shared
