@@ -6,6 +6,7 @@
  */
 
 #include "huffman_tree.h"
+#include <stdlib.h>
 
 // ****** TREE GLOBALS ******
 // 2^k - 1, where k is level of the tree
@@ -79,10 +80,9 @@ void MinHeapify(Heap* heap, int index)
   }
 }
 
-int QueueInsert(Heap* heap, NodePtr node)
+void QueueInsert(Heap* heap, NodePtr node)
 {
   int index, parent_index;
-  NodePtr tree;
   
   // NOTE: the index begins at 1 but the array indexes from 0.
   index = heap->size++;
@@ -118,9 +118,9 @@ NodePtr QueuePop(Heap* heap)
 // Huffman tree
 // ************************************
 
-NodePtr* InitNodes()
+NodePtr InitNodes()
 {
-  return (NodePtr*)calloc(MAX_NUM_NODES , sizeof(struct Node));
+  return (NodePtr)calloc(MAX_NUM_NODES , sizeof(struct Node));
 }
 
 NodePtr CreateNode(NodePtr node_arr, unsigned long int freq, char character, NodePtr left, NodePtr right)
@@ -151,7 +151,6 @@ NodePtr CreateTree(const unsigned long* freq_arr, int size)
     .size = 0,
   };
   
-
   // Populate Priority queue
   for(i = 0; i < size; ++i)
   {

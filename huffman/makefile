@@ -4,18 +4,18 @@ TOP = .
 CC = gcc
 
 # Compiler flags
-CCFLAGS = -fpic -Wall -Wextra -Wall -std=c99
+CCFLAGS = -fPIC -Wall -Wextra -Wall -pedantic -Werror -std=c99
 
 # Linker flags
 LDFLAGS = -shared
 
-# Files
-SOURCES = $(wildcard *.c)
-OBJECTS = $(SOURCES:.c=.o)
-
 # Directories
 TARGET_DIR = $(TOP)/bin
 OBJ_DIR = $(TOP)/bin/obj
+
+# Files
+SOURCES = $(wildcard *.c)
+OBJECTS = $(SOURCES:%.c=$(OBJ_DIR)/%.o)
 
 # Target
 TARGET_LIB = $(TARGET_DIR)/libhuffman.so
@@ -25,7 +25,7 @@ LIB_PATH = ${CURDIR}/bin
 
 all: MAKE_DIRS $(TARGET_LIB)
 
-$(TARGET_LIB): $(OBJ_DIR)/$(OBJECTS)
+$(TARGET_LIB): $(OBJECTS)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 $(OBJ_DIR)/%.o: %.c %.h
@@ -40,3 +40,5 @@ MAKE_DIRS :
 
 clean:
 	rm -rf $(TARGET_DIR)
+
+print-%  : ; @echo $* = $($*)

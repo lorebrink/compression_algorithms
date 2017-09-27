@@ -55,10 +55,3 @@ const char* CompressFile(const char* file_path)
 
   return file_path;
 }
-
-int main()
-{
-  return 0;
-}
-
-
