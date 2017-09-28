@@ -16,7 +16,8 @@ extern "C"
 
 #include <string>
 
-TEST(HuffmanTest, DummyTest) {
+TEST(HuffmanTest, DummyTest)
+{
   std::string file_path = "test.txt";
   const std::string file_path_result = CompressFile(file_path.c_str());
   ASSERT_EQ(file_path, file_path_result);
