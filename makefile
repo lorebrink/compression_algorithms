@@ -9,7 +9,7 @@ TESTS = unittests
 
 $(MAIN_PROGRAM): $(LIB_DIRS)
 	$(MAKE) $(MFLAGS) -C $@
-	  
+
 $(LIB_DIRS):
 	$(MAKE) $(MFLAGS) -C $@
 

@@ -4,18 +4,18 @@ TOP = .
 CC = g++
 
 # Compiler flags
-CCFLAGS = -I./../huffman -Wall -Wextra -Wall
+CCFLAGS = -I./../huffman -Wall -Wextra -Wall -Werror -pedantic -std=c++11
 
 # Linker flags
 LDFLAGS = -L./../huffman/bin -lhuffman
 
-# Files
-SOURCES = $(wildcard *.cc)
-OBJECTS = $(SOURCES:.cpp=.o)
-
 # Directories
 TARGET_DIR = $(TOP)/bin
 OBJ_DIR = $(TOP)/bin/obj
+
+# Files
+SOURCES = $(wildcard *.cc)
+OBJECTS = $(SOURCES:%.cc=$(OBJ_DIR)/%.o)
 
 # Target executable
 TARGET = $(TARGET_DIR)/compress-cmd
@@ -23,7 +23,7 @@ TARGET = $(TARGET_DIR)/compress-cmd
 all: $(TARGET)
 
 # Linking stage
-$(TARGET): $(OBJ_DIR)/$(OBJECTS)
+$(TARGET): $(OBJECTS)
 	mkdir -p $(TARGET_DIR)
 	$(CC) -o $@ $^ $(LDFLAGS) 
 
