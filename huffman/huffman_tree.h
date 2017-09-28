@@ -23,4 +23,8 @@ typedef struct Node
 
 NodePtr CreateTree(const unsigned long* freq_arr, int size);
 
+void DeleteTree(NodePtr tree);
+
+
+
 #endif /* HUFFMAN_HUFFMAN_TREE_H_ */

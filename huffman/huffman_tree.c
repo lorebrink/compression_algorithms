@@ -12,9 +12,13 @@
 // 2^k - 1, where k is level of the tree
 #define MAX_NUM_NODES 511
 
-int num_nodes = 0;
-
 // ****** PRIORITY QUEUE GLOBALS ******
+typedef struct Nodes
+{
+  NodePtr array;
+  int num_nodes;
+} *NodesPtr;
+
 typedef struct
 {
   NodePtr tree[MAX_NUM_NODES];
@@ -118,18 +122,23 @@ NodePtr QueuePop(Heap* heap)
 // Huffman tree
 // ************************************
 
-NodePtr InitNodes()
+NodesPtr InitNodes()
 {
-  return (NodePtr)calloc(MAX_NUM_NODES , sizeof(struct Node));
+  NodesPtr node_arr;
+
+  node_arr = malloc(sizeof(struct Nodes));
+  node_arr->array = calloc(MAX_NUM_NODES , sizeof(struct Node));
+  node_arr->num_nodes = 0;
+
+  return node_arr;
 }
 
-NodePtr CreateNode(NodePtr node_arr, unsigned long int freq, char character, NodePtr left, NodePtr right)
+NodePtr CreateNode(NodesPtr node_arr, unsigned long int freq, char character, NodePtr left, NodePtr right)
 {
   int index;
-  int num_nodes = 0;
   
-  index = num_nodes++;
-  NodePtr node = &node_arr[index];
+  index = node_arr->num_nodes++;
+  NodePtr node = &node_arr->array[index];
 
   node->freq = freq;
   node->character = character;
@@ -142,7 +151,8 @@ NodePtr CreateNode(NodePtr node_arr, unsigned long int freq, char character, Nod
 NodePtr CreateTree(const unsigned long* freq_arr, int size)
 {
   int i;
-  NodePtr min_1, min_2, node_arr;
+  NodePtr min_1, min_2;
+  NodesPtr node_arr;
 
   node_arr = InitNodes();
 
@@ -172,6 +182,11 @@ NodePtr CreateTree(const unsigned long* freq_arr, int size)
   
   // The root node of the tree.
   return heap.tree[0];
+}
+
+void DeleteTree(NodePtr tree)
+{
+  free(tree);
 }
 
 
